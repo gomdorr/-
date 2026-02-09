@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>곰돌이 댄스</title>
+  <title>곰돌이</title>
   <style>
     :root { color-scheme: light; }
     body{
@@ -12,100 +12,6 @@
       font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif;
       overflow:hidden;
     }
-    .card{
-      text-align:center; padding:28px 22px; border-radius:22px;
-      background: rgba(255,255,255,.7);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 14px 40px rgba(0,0,0,.10);
-      border: 1px solid rgba(255,255,255,.6);
-      min-width: 280px;
-      max-width: min(520px, calc(100vw - 32px));
-    }
-    .sub{ opacity:.75; margin:10px 0 0; font-size:14px; }
-    .note{ margin-top:14px; font-size:12px; opacity:.6; }
-
-    /* 곰 + 깃발을 한 덩어리로 */
-    .bearWrap{
-      position: relative;
-      display:inline-block;
-      transform-origin: 50% 80%;
-      animation: dance 900ms infinite ease-in-out;
-      filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
-      user-select:none;
-      will-change: transform;
-    }
-    .bear{
-      font-size: 120px;
-      line-height: 1;
-      display:block;
-    }
-
-    /* 깃발(막대 + 천 + 글자) */
-    .flag{
-      position:absolute;
-      left: 78%;
-      top: 6%;
-      transform: rotate(12deg);
-      transform-origin: 0% 50%;
-      pointer-events:none;
-      will-change: transform;
-    }
-    .pole{
-      position:absolute;
-      left: -8px;
-      top: 6px;
-      width: 5px;
-      height: 78px;
-      border-radius: 999px;
-      background: rgba(30,30,30,.85);
-      box-shadow: 0 6px 10px rgba(0,0,0,.12);
-    }
-    .cloth{
-      position:relative;
-      padding: 8px 12px 8px 12px;
-      border-radius: 10px;
-      background: rgba(17,17,17,.92);
-      color:#fff;
-      font-weight:800;
-      font-size: 14px;
-      letter-spacing: .5px;
-      white-space: nowrap;
-      box-shadow: 0 10px 18px rgba(0,0,0,.14);
-      margin-left: 0px;
-      /* 막대에 살짝 붙는 삼각형 */
-    }
-    .cloth::before{
-      content:"";
-      position:absolute;
-      left:-10px; top: 50%;
-      transform: translateY(-50%);
-      border-width: 10px 10px 10px 0;
-      border-style: solid;
-      border-color: transparent rgba(17,17,17,.92) transparent transparent;
-    }
-    /* 깃발 천이 흔들리는 느낌 */
-    .cloth{
-      animation: wave 600ms infinite ease-in-out;
-      transform-origin: 0% 50%;
-      will-change: transform;
-    }
-    @keyframes wave{
-      0%   { transform: skewX(0deg) rotate(0deg); }
-      50%  { transform: skewX(-8deg) rotate(-2deg); }
-      100% { transform: skewX(0deg) rotate(0deg); }
-    }
-
-    /* 춤 동작: 좌우 흔들 + 살짝 점프 */
-    @keyframes dance{
-      0%   { transform: translateY(0) rotate(-10deg) scale(1.0); }
-      15%  { transform: translateY(-10px) rotate(8deg)  scale(1.03); }
-      35%  { transform: translateY(0) rotate(-12deg) scale(1.0); }
-      55%  { transform: translateY(-12px) rotate(10deg) scale(1.04); }
-      75%  { transform: translateY(0) rotate(-8deg)  scale(1.0); }
-      100% { transform: translateY(0) rotate(-10deg) scale(1.0); }
-    }
-
-    /* 반짝이 배경 */
     .sparkle{
       position:absolute; inset:0; pointer-events:none;
       background:
@@ -121,10 +27,163 @@
       100%{ transform: translate3d(0,0,0) scale(1); }
     }
 
+    .card{
+      text-align:center;
+      padding:28px 22px;
+      border-radius:22px;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.10);
+      border: 1px solid rgba(255,255,255,.6);
+      min-width: 280px;
+      max-width: min(520px, calc(100vw - 32px));
+      position: relative;
+    }
+
+    /* 곰 + 깃발 */
+    .bearWrap{
+      position: relative;
+      display:inline-block;
+      transform-origin: 50% 80%;
+      animation: dance 900ms infinite ease-in-out;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
+      user-select:none;
+      will-change: transform;
+      transition: transform 260ms ease;
+    }
+    .bear{
+      font-size: 120px;
+      line-height: 1;
+      display:block;
+      transition: transform 260ms ease, filter 260ms ease;
+    }
+
+    /* 기본 춤 */
+    @keyframes dance{
+      0%   { transform: translateY(0) rotate(-10deg) scale(1.0); }
+      15%  { transform: translateY(-10px) rotate(8deg)  scale(1.03); }
+      35%  { transform: translateY(0) rotate(-12deg) scale(1.0); }
+      55%  { transform: translateY(-12px) rotate(10deg) scale(1.04); }
+      75%  { transform: translateY(0) rotate(-8deg)  scale(1.0); }
+      100% { transform: translateY(0) rotate(-10deg) scale(1.0); }
+    }
+
+    /* 승진: 더 거대해짐 */
+    .promoted .bear{
+      transform: scale(1.28);
+    }
+
+    /* 깃발 */
+    .flag{
+      position:absolute;
+      left: 78%;
+      top: 6%;
+      transform: rotate(12deg);
+      transform-origin: 0% 50%;
+      pointer-events:none;
+    }
+    .pole{
+      position:absolute;
+      left: -8px;
+      top: 6px;
+      width: 5px;
+      height: 78px;
+      border-radius: 999px;
+      background: rgba(30,30,30,.85);
+      box-shadow: 0 6px 10px rgba(0,0,0,.12);
+    }
+    .cloth{
+      position:relative;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(17,17,17,.92);
+      color:#fff;
+      font-weight:800;
+      font-size: 14px;
+      letter-spacing: .5px;
+      white-space: nowrap;
+      box-shadow: 0 10px 18px rgba(0,0,0,.14);
+      transform-origin: 0% 50%;
+      animation: wave 600ms infinite ease-in-out;
+    }
+    .cloth::before{
+      content:"";
+      position:absolute;
+      left:-10px; top: 50%;
+      transform: translateY(-50%);
+      border-width: 10px 10px 10px 0;
+      border-style: solid;
+      border-color: transparent rgba(17,17,17,.92) transparent transparent;
+    }
+    @keyframes wave{
+      0%   { transform: skewX(0deg) rotate(0deg); }
+      50%  { transform: skewX(-8deg) rotate(-2deg); }
+      100% { transform: skewX(0deg) rotate(0deg); }
+    }
+
+    /* 축출: 깃발 사라지고 울음 + 흉악화 */
+    .banished .flag{ display:none; }
+    .banished .bear::after{
+      content:"";
+    }
+    .banished .bear{
+      /* '아이콘은 그대로' 조건이라 이모지는 유지, 대신 느낌만 바꿈 */
+      filter: drop-shadow(0 16px 18px rgba(0,0,0,.18));
+    }
+    .cry{
+      margin-top: 10px;
+      font-size: 28px;
+      line-height: 1;
+      height: 32px;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 180ms ease, transform 180ms ease;
+      user-select:none;
+    }
+    .banished .cry{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 갑자기 흉악한 곰돌이: 떨림 + 색조 변화(이모지 자체는 유지) */
+    .feral .bearWrap{
+      animation: feralShake 120ms infinite linear;
+    }
+    @keyframes feralShake{
+      0% { transform: translate(0,0) rotate(-2deg); }
+      25%{ transform: translate(2px,-1px) rotate(2deg); }
+      50%{ transform: translate(-2px,1px) rotate(-2deg); }
+      75%{ transform: translate(1px,2px) rotate(2deg); }
+      100%{ transform: translate(0,0) rotate(-2deg); }
+    }
+    .feral .bear{
+      filter: contrast(1.2) saturate(1.4) drop-shadow(0 18px 22px rgba(0,0,0,.22));
+    }
+    .flash{
+      position:absolute; inset:-40px;
+      background: radial-gradient(circle at 50% 50%, rgba(255,60,60,.22), transparent 55%);
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity 120ms ease;
+      border-radius: 999px;
+      filter: blur(2px);
+    }
+    .feral .flash{ opacity: 1; }
+
+    .buttons{
+      margin-top: 16px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
     button{
-      margin-top:14px;
-      border:0; padding:10px 14px; border-radius:999px;
-      background:#111; color:#fff; font-weight:700;
+      border:0;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-weight:800;
       cursor:pointer;
       touch-action: manipulation;
     }
@@ -133,60 +192,92 @@
       outline: 3px solid rgba(0,0,0,.25);
       outline-offset: 3px;
     }
+    .danger{ background:#b00020; }
 
-    /* 모션 줄이기 설정 존중 */
     @media (prefers-reduced-motion: reduce){
       .sparkle, .bearWrap, .cloth{ animation: none !important; }
+      .feral .bearWrap{ animation: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="sparkle" aria-hidden="true"></div>
 
-  <div class="card" role="main" aria-label="곰돌이 댄스 화면">
-    <div class="bearWrap" id="bearWrap" aria-label="총무팀 깃발을 든 곰돌이" role="img">
-      <span class="bear" aria-hidden="true">🧸</span>
+  <div class="card" role="main" aria-label="곰돌이 화면">
+    <div class="flash" aria-hidden="true"></div>
 
-      <!-- 총무팀 깃발 -->
-      <span class="flag" aria-hidden="true">
+    <div class="bearWrap" id="bearWrap" role="img" aria-label="총무팀 곰돌이">
+      <span class="bear" id="bear" aria-hidden="true">🧸</span>
+
+      <span class="flag" id="flag" aria-hidden="true">
         <span class="pole"></span>
         <span class="cloth">총무팀</span>
       </span>
     </div>
 
-    <h1 style="margin:10px 0 0; font-size:22px;">곰돌이 댄스 타임!</h1>
-    <p class="sub">링크 타고 왔지? 오늘도 버텼다 🫶</p>
+    <div class="cry" id="cry" aria-hidden="true">😭</div>
 
-    <button id="btn" type="button" aria-pressed="false">박자 빠르게</button>
-    <div class="note">버튼 누르면 더 신나게 춤춰요</div>
+    <div class="buttons">
+      <button id="btnPromote" type="button">곰돌이 승진</button>
+      <button id="btnBanish" type="button" class="danger">곰돌이 축출</button>
+    </div>
   </div>
 
   <script>
+    const card = document.querySelector('.card');
     const wrap = document.getElementById('bearWrap');
-    const btn = document.getElementById('btn');
+    const bear = document.getElementById('bear');
+    const cry = document.getElementById('cry');
 
-    // 기본 속도(한 곳에서 관리)
-    const SPEED_NORMAL = 900;
-    const SPEED_FAST = 520;
+    const btnPromote = document.getElementById('btnPromote');
+    const btnBanish = document.getElementById('btnBanish');
 
-    let fast = false;
+    let promoted = false;
+    let banished = false;
+    let feralTimer = null;
 
-    const setSpeed = (isFast) => {
-      fast = isFast;
-      wrap.style.animationDuration = (fast ? SPEED_FAST : SPEED_NORMAL) + 'ms';
-      btn.textContent = fast ? '원래 속도' : '박자 빠르게';
-      btn.setAttribute('aria-pressed', String(fast));
+    const clearFeral = () => {
+      if (feralTimer) {
+        clearTimeout(feralTimer);
+        feralTimer = null;
+      }
+      card.classList.remove('feral');
     };
 
-    btn.addEventListener('click', () => setSpeed(!fast));
+    btnPromote.addEventListener('click', () => {
+      // 축출 상태면 승진 안 되게(원하면 이 줄 삭제)
+      if (banished) return;
 
-    // 키보드 사용성(Enter/Space는 버튼 기본 동작이지만, 혹시 커스텀될 때 대비)
-    btn.addEventListener('keydown', (e) => {
-      if (e.key === ' ' || e.key === 'Enter') {
-        // 기본 클릭 동작이 있으면 중복 토글될 수 있으니 보통은 막지 않아도 됨.
-        // 여기서는 안전하게 두지 않음.
-      }
+      promoted = !promoted;
+      card.classList.toggle('promoted', promoted);
+
+      // 울음 제거
+      card.classList.remove('banished');
+      cry.textContent = '😭';
+      cry.setAttribute('aria-hidden', 'true');
     });
+
+    btnBanish.addEventListener('click', () => {
+      banished = true;
+      promoted = false;
+      card.classList.remove('promoted');
+
+      // 깃발 제거 + 울음
+      card.classList.add('banished');
+      cry.textContent = '😭';
+      cry.setAttribute('aria-hidden', 'true');
+
+      // "갑자기" 흉악화: 짧게 텀 주고 변신
+      clearFeral();
+      feralTimer = setTimeout(() => {
+        card.classList.add('feral');
+        // 울음도 흉악한 느낌으로 바꾸고 싶으면 아래처럼
+        cry.textContent = '😈';
+      }, 700);
+    });
+
+    // 더블클릭/길게누름 같은 의도치 않은 텍스트 선택 방지(모바일)
+    wrap.addEventListener('dragstart', (e) => e.preventDefault());
   </script>
 </body>
 </html>
