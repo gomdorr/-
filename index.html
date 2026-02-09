@@ -54,8 +54,9 @@
       transform-origin: 50% 80%;
       filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
       user-select:none;
-      will-change: transform;
+      will-change: transform, opacity;
       transition: transform 220ms ease;
+      opacity: 1;
     }
     .bear{
       font-size: 120px;
@@ -243,19 +244,15 @@
     };
 
     const setMood = (s) => {
-      // 최대치 처리
+      // 탈주 상태는 별도 처리
       if (escaped) {
         mood.textContent = '🏃‍♂️💨';
         return;
       }
-      if (s >= MAX) {
-        mood.textContent = '🥰';
-        return;
-      }
-      if (s <= -MAX) {
-        mood.textContent = '😢';
-        return;
-      }
+
+      // 최대치 표정
+      if (s >= MAX) { mood.textContent = '🥰'; return; }
+      if (s <= -MAX) { mood.textContent = '😢'; return; }
 
       if (s >= 3) mood.textContent = '😄';
       else if (s >= 1) mood.textContent = '🙂';
@@ -268,7 +265,7 @@
       // 탈주 상태면 더 이상 조정 없음(정색하기로만 복구)
       if (escaped) return;
 
-      // 크기: score에 따라 0.65~1.45 정도
+      // 크기: score에 따라 0.55~1.45
       const scale = 1 + (score * 0.09); // MAX=5면 1.45, -5면 0.55
       bearWrap.style.transform = `scale(${clamp(scale, 0.55, 1.45)})`;
 
@@ -283,33 +280,27 @@
       heartBurst.classList.remove('show');
       mood.textContent = '🏃‍♂️💨';
       popMood();
+
       // 곰 탈주 애니메이션
       bearWrap.classList.add('escape');
     };
 
     const feed = () => {
       if (escaped) return;
+
       score = clamp(score + 1, -MAX, MAX);
-      setMood(score);
       popMood();
 
-      if (score >= MAX) {
-        heartBurst.classList.add('show');
-        mood.textContent = '💖';
-      } else {
-        mood.textContent = score >= 3 ? '😄' : '🙂';
-      }
       applyVisual();
     };
 
     const punish = () => {
       if (escaped) return;
+
       score = clamp(score - 1, -MAX, MAX);
-      setMood(score);
       popMood();
 
       if (score <= -MAX) {
-        // 최대 벌: 탈주
         doEscape();
         return;
       }
@@ -319,11 +310,17 @@
     const reset = () => {
       score = 0;
       escaped = false;
+
       heartBurst.classList.remove('show');
 
+      // 탈주 애니메이션의 forwards(opacity:0 등) 잔상 제거를 확실히 리셋
       bearWrap.classList.remove('escape');
-      // 탈주 후 transform이 애니메이션으로 바뀌기 때문에 강제 리셋
+      bearWrap.style.animation = 'none';
       bearWrap.style.transform = 'scale(1)';
+      bearWrap.style.opacity = '1';
+      // reflow로 애니메이션 상태 초기화
+      void bearWrap.offsetHeight;
+      bearWrap.style.animation = '';
 
       mood.textContent = '😐';
       popMood();
