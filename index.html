@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>곰돌이 댄스</title>
+  <style>
+    :root { color-scheme: light; }
+    body{
+      margin:0; height:100vh; display:grid; place-items:center;
+      background: linear-gradient(135deg, #fff7f0, #f0fbff);
+      font-family: system-ui, -apple-system, "Noto Sans KR", sans-serif;
+      overflow:hidden;
+    }
+    .card{
+      text-align:center; padding:28px 22px; border-radius:22px;
+      background: rgba(255,255,255,.7);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 14px 40px rgba(0,0,0,.10);
+      border: 1px solid rgba(255,255,255,.6);
+      min-width: 280px;
+      max-width: min(520px, calc(100vw - 32px));
+    }
+    .sub{ opacity:.75; margin:10px 0 0; font-size:14px; }
+    .note{ margin-top:14px; font-size:12px; opacity:.6; }
+
+    /* 곰 + 깃발을 한 덩어리로 */
+    .bearWrap{
+      position: relative;
+      display:inline-block;
+      transform-origin: 50% 80%;
+      animation: dance 900ms infinite ease-in-out;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
+      user-select:none;
+      will-change: transform;
+    }
+    .bear{
+      font-size: 120px;
+      line-height: 1;
+      display:block;
+    }
+
+    /* 깃발(막대 + 천 + 글자) */
+    .flag{
+      position:absolute;
+      left: 78%;
+      top: 6%;
+      transform: rotate(12deg);
+      transform-origin: 0% 50%;
+      pointer-events:none;
+      will-change: transform;
+    }
+    .pole{
+      position:absolute;
+      left: -8px;
+      top: 6px;
+      width: 5px;
+      height: 78px;
+      border-radius: 999px;
+      background: rgba(30,30,30,.85);
+      box-shadow: 0 6px 10px rgba(0,0,0,.12);
+    }
+    .cloth{
+      position:relative;
+      padding: 8px 12px 8px 12px;
+      border-radius: 10px;
+      background: rgba(17,17,17,.92);
+      color:#fff;
+      font-weight:800;
+      font-size: 14px;
+      letter-spacing: .5px;
+      white-space: nowrap;
+      box-shadow: 0 10px 18px rgba(0,0,0,.14);
+      margin-left: 0px;
+      /* 막대에 살짝 붙는 삼각형 */
+    }
+    .cloth::before{
+      content:"";
+      position:absolute;
+      left:-10px; top: 50%;
+      transform: translateY(-50%);
+      border-width: 10px 10px 10px 0;
+      border-style: solid;
+      border-color: transparent rgba(17,17,17,.92) transparent transparent;
+    }
+    /* 깃발 천이 흔들리는 느낌 */
+    .cloth{
+      animation: wave 600ms infinite ease-in-out;
+      transform-origin: 0% 50%;
+      will-change: transform;
+    }
+    @keyframes wave{
+      0%   { transform: skewX(0deg) rotate(0deg); }
+      50%  { transform: skewX(-8deg) rotate(-2deg); }
+      100% { transform: skewX(0deg) rotate(0deg); }
+    }
+
+    /* 춤 동작: 좌우 흔들 + 살짝 점프 */
+    @keyframes dance{
+      0%   { transform: translateY(0) rotate(-10deg) scale(1.0); }
+      15%  { transform: translateY(-10px) rotate(8deg)  scale(1.03); }
+      35%  { transform: translateY(0) rotate(-12deg) scale(1.0); }
+      55%  { transform: translateY(-12px) rotate(10deg) scale(1.04); }
+      75%  { transform: translateY(0) rotate(-8deg)  scale(1.0); }
+      100% { transform: translateY(0) rotate(-10deg) scale(1.0); }
+    }
+
+    /* 반짝이 배경 */
+    .sparkle{
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,200,120,.35), transparent 35%),
+        radial-gradient(circle at 75% 25%, rgba(120,210,255,.35), transparent 35%),
+        radial-gradient(circle at 55% 80%, rgba(170,120,255,.25), transparent 40%);
+      animation: float 6s infinite ease-in-out;
+      opacity:.9;
+    }
+    @keyframes float{
+      0%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(0,-10px,0) scale(1.02); }
+      100%{ transform: translate3d(0,0,0) scale(1); }
+    }
+
+    button{
+      margin-top:14px;
+      border:0; padding:10px 14px; border-radius:999px;
+      background:#111; color:#fff; font-weight:700;
+      cursor:pointer;
+      touch-action: manipulation;
+    }
+    button:active{ transform: scale(.98); }
+    button:focus-visible{
+      outline: 3px solid rgba(0,0,0,.25);
+      outline-offset: 3px;
+    }
+
+    /* 모션 줄이기 설정 존중 */
+    @media (prefers-reduced-motion: reduce){
+      .sparkle, .bearWrap, .cloth{ animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sparkle" aria-hidden="true"></div>
+
+  <div class="card" role="main" aria-label="곰돌이 댄스 화면">
+    <div class="bearWrap" id="bearWrap" aria-label="총무팀 깃발을 든 곰돌이" role="img">
+      <span class="bear" aria-hidden="true">🧸</span>
+
+      <!-- 총무팀 깃발 -->
+      <span class="flag" aria-hidden="true">
+        <span class="pole"></span>
+        <span class="cloth">총무팀</span>
+      </span>
+    </div>
+
+    <h1 style="margin:10px 0 0; font-size:22px;">곰돌이 댄스 타임!</h1>
+    <p class="sub">링크 타고 왔지? 오늘도 버텼다 🫶</p>
+
+    <button id="btn" type="button" aria-pressed="false">박자 빠르게</button>
+    <div class="note">버튼 누르면 더 신나게 춤춰요</div>
+  </div>
+
+  <script>
+    const wrap = document.getElementById('bearWrap');
+    const btn = document.getElementById('btn');
+
+    // 기본 속도(한 곳에서 관리)
+    const SPEED_NORMAL = 900;
+    const SPEED_FAST = 520;
+
+    let fast = false;
+
+    const setSpeed = (isFast) => {
+      fast = isFast;
+      wrap.style.animationDuration = (fast ? SPEED_FAST : SPEED_NORMAL) + 'ms';
+      btn.textContent = fast ? '원래 속도' : '박자 빠르게';
+      btn.setAttribute('aria-pressed', String(fast));
+    };
+
+    btn.addEventListener('click', () => setSpeed(!fast));
+
+    // 키보드 사용성(Enter/Space는 버튼 기본 동작이지만, 혹시 커스텀될 때 대비)
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        // 기본 클릭 동작이 있으면 중복 토글될 수 있으니 보통은 막지 않아도 됨.
+        // 여기서는 안전하게 두지 않음.
+      }
+    });
+  </script>
+</body>
+</html>
