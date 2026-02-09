@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>곰돌이</title>
+  <title>총무팀 곰돌이</title>
   <style>
     :root { color-scheme: light; }
     body{
@@ -18,7 +18,7 @@
         radial-gradient(circle at 20% 30%, rgba(255,200,120,.35), transparent 35%),
         radial-gradient(circle at 75% 25%, rgba(120,210,255,.35), transparent 35%),
         radial-gradient(circle at 55% 80%, rgba(170,120,255,.25), transparent 40%);
-      animation: float 6s infinite ease-in-out;
+      animation: float 7s infinite ease-in-out;
       opacity:.9;
     }
     @keyframes float{
@@ -29,48 +29,40 @@
 
     .card{
       text-align:center;
-      padding:28px 22px;
+      padding:22px 18px 18px;
       border-radius:22px;
-      background: rgba(255,255,255,.7);
-      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
       box-shadow: 0 14px 40px rgba(0,0,0,.10);
-      border: 1px solid rgba(255,255,255,.6);
-      min-width: 280px;
+      border: 1px solid rgba(255,255,255,.65);
+      min-width: 300px;
       max-width: min(520px, calc(100vw - 32px));
       position: relative;
     }
 
-    /* 곰 + 깃발 */
+    .stage{
+      position: relative;
+      display:inline-block;
+      padding: 10px 18px 2px;
+      border-radius: 18px;
+    }
+
+    /* 곰(이모지 유지) */
     .bearWrap{
       position: relative;
       display:inline-block;
       transform-origin: 50% 80%;
-      animation: dance 900ms infinite ease-in-out;
       filter: drop-shadow(0 10px 12px rgba(0,0,0,.10));
       user-select:none;
       will-change: transform;
-      transition: transform 260ms ease;
+      transition: transform 220ms ease;
     }
     .bear{
       font-size: 120px;
       line-height: 1;
       display:block;
-      transition: transform 260ms ease, filter 260ms ease;
-    }
-
-    /* 기본 춤 */
-    @keyframes dance{
-      0%   { transform: translateY(0) rotate(-10deg) scale(1.0); }
-      15%  { transform: translateY(-10px) rotate(8deg)  scale(1.03); }
-      35%  { transform: translateY(0) rotate(-12deg) scale(1.0); }
-      55%  { transform: translateY(-12px) rotate(10deg) scale(1.04); }
-      75%  { transform: translateY(0) rotate(-8deg)  scale(1.0); }
-      100% { transform: translateY(0) rotate(-10deg) scale(1.0); }
-    }
-
-    /* 승진: 더 거대해짐 */
-    .promoted .bear{
-      transform: scale(1.28);
+      transition: transform 220ms ease, filter 220ms ease;
+      will-change: transform;
     }
 
     /* 깃발 */
@@ -98,13 +90,14 @@
       border-radius: 10px;
       background: rgba(17,17,17,.92);
       color:#fff;
-      font-weight:800;
+      font-weight:900;
       font-size: 14px;
       letter-spacing: .5px;
       white-space: nowrap;
       box-shadow: 0 10px 18px rgba(0,0,0,.14);
       transform-origin: 0% 50%;
-      animation: wave 600ms infinite ease-in-out;
+      animation: wave 700ms infinite ease-in-out;
+      will-change: transform;
     }
     .cloth::before{
       content:"";
@@ -121,57 +114,23 @@
       100% { transform: skewX(0deg) rotate(0deg); }
     }
 
-    /* 축출: 깃발 사라지고 울음 + 흉악화 */
-    .banished .flag{ display:none; }
-    .banished .bear::after{
-      content:"";
-    }
-    .banished .bear{
-      /* '아이콘은 그대로' 조건이라 이모지는 유지, 대신 느낌만 바꿈 */
-      filter: drop-shadow(0 16px 18px rgba(0,0,0,.18));
-    }
-    .cry{
+    /* 얼굴/상태 표정(곰 이모지는 그대로, 위에 표정 뱃지로 표현) */
+    .mood{
       margin-top: 10px;
-      font-size: 28px;
+      height: 34px;
+      font-size: 30px;
       line-height: 1;
-      height: 32px;
-      opacity: 0;
-      transform: translateY(-6px);
-      transition: opacity 180ms ease, transform 180ms ease;
       user-select:none;
+      opacity: .95;
+      transition: transform 160ms ease, opacity 160ms ease;
     }
-    .banished .cry{
-      opacity: 1;
-      transform: translateY(0);
+    .mood.pop{
+      transform: translateY(-3px) scale(1.06);
     }
 
-    /* 갑자기 흉악한 곰돌이: 떨림 + 색조 변화(이모지 자체는 유지) */
-    .feral .bearWrap{
-      animation: feralShake 120ms infinite linear;
-    }
-    @keyframes feralShake{
-      0% { transform: translate(0,0) rotate(-2deg); }
-      25%{ transform: translate(2px,-1px) rotate(2deg); }
-      50%{ transform: translate(-2px,1px) rotate(-2deg); }
-      75%{ transform: translate(1px,2px) rotate(2deg); }
-      100%{ transform: translate(0,0) rotate(-2deg); }
-    }
-    .feral .bear{
-      filter: contrast(1.2) saturate(1.4) drop-shadow(0 18px 22px rgba(0,0,0,.22));
-    }
-    .flash{
-      position:absolute; inset:-40px;
-      background: radial-gradient(circle at 50% 50%, rgba(255,60,60,.22), transparent 55%);
-      opacity: 0;
-      pointer-events:none;
-      transition: opacity 120ms ease;
-      border-radius: 999px;
-      filter: blur(2px);
-    }
-    .feral .flash{ opacity: 1; }
-
+    /* 버튼 */
     .buttons{
-      margin-top: 16px;
+      margin-top: 14px;
       display:flex;
       gap:10px;
       justify-content:center;
@@ -183,7 +142,7 @@
       border-radius:999px;
       background:#111;
       color:#fff;
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
       touch-action: manipulation;
     }
@@ -192,92 +151,193 @@
       outline: 3px solid rgba(0,0,0,.25);
       outline-offset: 3px;
     }
-    .danger{ background:#b00020; }
+    .warn{ background:#b00020; }
+    .reset{ background:#2a2a2a; }
+
+    /* 탈주 연출 */
+    .escape{
+      animation: escape 900ms forwards ease-in;
+    }
+    @keyframes escape{
+      0%   { transform: translate(0,0) rotate(0deg) scale(0.55); opacity:1; }
+      60%  { transform: translate(140px,-40px) rotate(18deg) scale(0.45); opacity:.9; }
+      100% { transform: translate(320px,-120px) rotate(28deg) scale(0.35); opacity:0; }
+    }
+
+    /* 하트 연출 */
+    .heartBurst{
+      position:absolute;
+      inset: -10px -10px -10px -10px;
+      pointer-events:none;
+      display:grid;
+      place-items:center;
+      opacity: 0;
+      transform: scale(.98);
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .heartBurst.show{
+      opacity: 1;
+      transform: scale(1);
+    }
+    .heartBurst span{
+      font-size: 40px;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,.10));
+      animation: hearts 900ms infinite ease-in-out;
+    }
+    @keyframes hearts{
+      0%{ transform: translateY(6px) scale(1); opacity:.95; }
+      50%{ transform: translateY(-6px) scale(1.08); opacity:1; }
+      100%{ transform: translateY(6px) scale(1); opacity:.95; }
+    }
 
     @media (prefers-reduced-motion: reduce){
-      .sparkle, .bearWrap, .cloth{ animation: none !important; }
-      .feral .bearWrap{ animation: none !important; }
+      .sparkle, .cloth, .escape, .heartBurst span{ animation: none !important; }
+      .heartBurst{ transition: none !important; }
     }
   </style>
 </head>
 <body>
   <div class="sparkle" aria-hidden="true"></div>
 
-  <div class="card" role="main" aria-label="곰돌이 화면">
-    <div class="flash" aria-hidden="true"></div>
+  <div class="card" role="main" aria-label="총무팀 곰돌이 게임">
+    <div class="stage">
+      <div class="heartBurst" id="heartBurst" aria-hidden="true"><span>💖💖💖</span></div>
 
-    <div class="bearWrap" id="bearWrap" role="img" aria-label="총무팀 곰돌이">
-      <span class="bear" id="bear" aria-hidden="true">🧸</span>
+      <div class="bearWrap" id="bearWrap" role="img" aria-label="총무팀 깃발을 단 곰돌이">
+        <span class="bear" id="bear" aria-hidden="true">🧸</span>
+        <span class="flag" id="flag" aria-hidden="true">
+          <span class="pole"></span>
+          <span class="cloth">총무팀</span>
+        </span>
+      </div>
 
-      <span class="flag" id="flag" aria-hidden="true">
-        <span class="pole"></span>
-        <span class="cloth">총무팀</span>
-      </span>
+      <div class="mood" id="mood" aria-hidden="true">😐</div>
     </div>
 
-    <div class="cry" id="cry" aria-hidden="true">😭</div>
-
     <div class="buttons">
-      <button id="btnPromote" type="button">곰돌이 승진</button>
-      <button id="btnBanish" type="button" class="danger">곰돌이 축출</button>
+      <button id="btnFeed" type="button">먹이주기</button>
+      <button id="btnPunish" type="button" class="warn">벌주기</button>
+      <button id="btnReset" type="button" class="reset">정색하기</button>
     </div>
   </div>
 
   <script>
-    const card = document.querySelector('.card');
-    const wrap = document.getElementById('bearWrap');
-    const bear = document.getElementById('bear');
-    const cry = document.getElementById('cry');
+    const bearWrap = document.getElementById('bearWrap');
+    const mood = document.getElementById('mood');
+    const heartBurst = document.getElementById('heartBurst');
 
-    const btnPromote = document.getElementById('btnPromote');
-    const btnBanish = document.getElementById('btnBanish');
+    const btnFeed = document.getElementById('btnFeed');
+    const btnPunish = document.getElementById('btnPunish');
+    const btnReset = document.getElementById('btnReset');
 
-    let promoted = false;
-    let banished = false;
-    let feralTimer = null;
+    // 상태 값: -MAX ... 0 ... +MAX
+    const MAX = 5;
+    let score = 0;        // 먹이(+), 벌(-)
+    let escaped = false;  // 최대 벌이면 탈주
 
-    const clearFeral = () => {
-      if (feralTimer) {
-        clearTimeout(feralTimer);
-        feralTimer = null;
-      }
-      card.classList.remove('feral');
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+    const popMood = () => {
+      mood.classList.add('pop');
+      setTimeout(() => mood.classList.remove('pop'), 160);
     };
 
-    btnPromote.addEventListener('click', () => {
-      // 축출 상태면 승진 안 되게(원하면 이 줄 삭제)
-      if (banished) return;
+    const setMood = (s) => {
+      // 최대치 처리
+      if (escaped) {
+        mood.textContent = '🏃‍♂️💨';
+        return;
+      }
+      if (s >= MAX) {
+        mood.textContent = '🥰';
+        return;
+      }
+      if (s <= -MAX) {
+        mood.textContent = '😢';
+        return;
+      }
 
-      promoted = !promoted;
-      card.classList.toggle('promoted', promoted);
+      if (s >= 3) mood.textContent = '😄';
+      else if (s >= 1) mood.textContent = '🙂';
+      else if (s === 0) mood.textContent = '😐';
+      else if (s <= -3) mood.textContent = '😞';
+      else mood.textContent = '🙁';
+    };
 
-      // 울음 제거
-      card.classList.remove('banished');
-      cry.textContent = '😭';
-      cry.setAttribute('aria-hidden', 'true');
-    });
+    const applyVisual = () => {
+      // 탈주 상태면 더 이상 조정 없음(정색하기로만 복구)
+      if (escaped) return;
 
-    btnBanish.addEventListener('click', () => {
-      banished = true;
-      promoted = false;
-      card.classList.remove('promoted');
+      // 크기: score에 따라 0.65~1.45 정도
+      const scale = 1 + (score * 0.09); // MAX=5면 1.45, -5면 0.55
+      bearWrap.style.transform = `scale(${clamp(scale, 0.55, 1.45)})`;
 
-      // 깃발 제거 + 울음
-      card.classList.add('banished');
-      cry.textContent = '😭';
-      cry.setAttribute('aria-hidden', 'true');
+      // 하트: 최대 먹이 시 표시
+      heartBurst.classList.toggle('show', score >= MAX);
 
-      // "갑자기" 흉악화: 짧게 텀 주고 변신
-      clearFeral();
-      feralTimer = setTimeout(() => {
-        card.classList.add('feral');
-        // 울음도 흉악한 느낌으로 바꾸고 싶으면 아래처럼
-        cry.textContent = '😈';
-      }, 700);
-    });
+      setMood(score);
+    };
 
-    // 더블클릭/길게누름 같은 의도치 않은 텍스트 선택 방지(모바일)
-    wrap.addEventListener('dragstart', (e) => e.preventDefault());
+    const doEscape = () => {
+      escaped = true;
+      heartBurst.classList.remove('show');
+      mood.textContent = '🏃‍♂️💨';
+      popMood();
+      // 곰 탈주 애니메이션
+      bearWrap.classList.add('escape');
+    };
+
+    const feed = () => {
+      if (escaped) return;
+      score = clamp(score + 1, -MAX, MAX);
+      setMood(score);
+      popMood();
+
+      if (score >= MAX) {
+        heartBurst.classList.add('show');
+        mood.textContent = '💖';
+      } else {
+        mood.textContent = score >= 3 ? '😄' : '🙂';
+      }
+      applyVisual();
+    };
+
+    const punish = () => {
+      if (escaped) return;
+      score = clamp(score - 1, -MAX, MAX);
+      setMood(score);
+      popMood();
+
+      if (score <= -MAX) {
+        // 최대 벌: 탈주
+        doEscape();
+        return;
+      }
+      applyVisual();
+    };
+
+    const reset = () => {
+      score = 0;
+      escaped = false;
+      heartBurst.classList.remove('show');
+
+      bearWrap.classList.remove('escape');
+      // 탈주 후 transform이 애니메이션으로 바뀌기 때문에 강제 리셋
+      bearWrap.style.transform = 'scale(1)';
+
+      mood.textContent = '😐';
+      popMood();
+    };
+
+    btnFeed.addEventListener('click', feed);
+    btnPunish.addEventListener('click', punish);
+    btnReset.addEventListener('click', reset);
+
+    // 초기 적용
+    applyVisual();
+
+    // 모바일에서 드래그로 텍스트 선택되는 것 방지
+    bearWrap.addEventListener('dragstart', (e) => e.preventDefault());
   </script>
 </body>
 </html>
